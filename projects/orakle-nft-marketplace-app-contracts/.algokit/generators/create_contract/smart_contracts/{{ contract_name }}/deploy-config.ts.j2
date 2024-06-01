@@ -4,8 +4,10 @@ import { NftMarketplaceClient } from '../artifacts/nft_marketplace/client'
 // Below is a showcase of various deployment options you can use in TypeScript Client
 export async function deploy() {
   console.log('=== Deploying NftMarketplace ===')
-
+    
   const algod = algokit.getAlgoClient()
+  
+
   const indexer = algokit.getAlgoIndexerClient()
   const deployer = await algokit.mnemonicAccountFromEnvironment({ name: 'DEPLOYER', fundWith: algokit.algos(3) }, algod)
   await algokit.ensureFunded(

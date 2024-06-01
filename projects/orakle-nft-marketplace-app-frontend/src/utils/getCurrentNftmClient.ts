@@ -43,7 +43,19 @@ export function getCurrentNftmClient(
   */
 
   // 문제 5 시작
-  const nftmClient = '여기에 코드 작성'
+  const nftmClient = new NftMarketplaceClient(
+    {
+      resolveBy: 'id',
+      // The unique id of an already deployed smart contract, or 0 if the smart contract has not been deployed
+      id: currentAppId,
+      // Optionally specify a default sender for all calls made from the client
+      sender: { addr: activeAddress!, signer },
+      // Optionally specify a different name for the contract - otherwise contract.name from the application.json file is used
+      name: 'AlternativeName',
+    },
+    // An algod client is required to make the underlying calls to the network
+    algorandClient.client.algod,
+  )
   // 문제 5 끝
 
   return nftmClient

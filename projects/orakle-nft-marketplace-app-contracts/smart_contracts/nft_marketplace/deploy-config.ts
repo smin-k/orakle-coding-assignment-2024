@@ -10,6 +10,7 @@ export async function deploy() {
 
   // 여러 클라이언트 생성
   const algod = algokit.getAlgoClient()
+  // console.log(algod)
   const indexer = algokit.getAlgoIndexerClient()
   const algorand = algokit.AlgorandClient.defaultLocalNet()
   algorand.setDefaultValidityWindow(1000)
@@ -55,7 +56,8 @@ export async function deploy() {
 
   // 생성된 에셋 ID를 저장
   const assetId = BigInt(createResult.confirmation.assetIndex!)
-  console.log(`1. IU Concert Ticket 에셋 생성 완료! 에셋 아이디: ${assetId}`)
+  console.log(assetId)
+  // console.log(`1. IU Concert Ticket 에셋 생성 완료! 에셋 아이디: ${assetId}`)
 
   // NftMarketplaceClient 앱 배포
   let unitaryPrice: number = 1 * 1_000_000
@@ -88,8 +90,8 @@ export async function deploy() {
     .addAssetTransfer(sendAssetToSell)
     .execute()
 
-  console.log('2. 앱 부트스트래핑 완료!')
-  console.log('3. IU 티켓 에셋 앱으로 송금 완료!')
+  // console.log('2. 앱 부트스트래핑 완료!')
+  // console.log('3. IU 티켓 에셋 앱으로 송금 완료!')
 
   // 구매자 앱 클라이언트 생성. 이 앱 클라이언트는 구매자 계정과 연동됨.
   const buyerAppClient = new NftMarketplaceClient(
@@ -120,9 +122,9 @@ export async function deploy() {
 
     try {
       let assetInfo = await algorand.account.getAssetInformation(buyer, assetId)
-      console.log(`${buyerName}가 이미 에셋에 옵트인 되어있어요! 현재 보유한 티켓 수: ${assetInfo.balance}개`)
+      // console.log(`${buyerName}가 이미 에셋에 옵트인 되어있어요! 현재 보유한 티켓 수: ${assetInfo.balance}개`)
     } catch (e) {
-      console.log(`${buyerName}가 에셋에 옵트인이 안 되어있어요. 옵트인 진행할게요~`)
+      // console.log(`${buyerName}가 에셋에 옵트인이 안 되어있어요. 옵트인 진행할게요~`)
 
       // buy메서드 앱 호출 트랜잭션 생성
       const buyAppCall = await appClient
@@ -147,7 +149,7 @@ export async function deploy() {
         .execute()
 
       const assetInfo = await algorand.account.getAssetInformation(buyer, assetId)
-      console.log(`${buyerName}가 티켓 ${buyAmount}장을 구매하여 ${assetInfo.balance}개의 티켓을 보유하고 있어요!`)
+      // console.log(`${buyerName}가 티켓 ${buyAmount}장을 구매하여 ${assetInfo.balance}개의 티켓을 보유하고 있어요!`)
       return
     }
 
@@ -161,7 +163,7 @@ export async function deploy() {
     )
 
     const assetInfo = await algorand.account.getAssetInformation(buyer, assetId)
-    console.log(`${buyerName}가 티켓 ${buyAmount}장을 구매하여 ${assetInfo.balance}개의 티켓을 보유하고 있어요!`)
+    // console.log(`${buyerName}가 티켓 ${buyAmount}장을 구매하여 ${assetInfo.balance}개의 티켓을 보유하고 있어요!`)
   }
 
   await buyAsset(buyerAppClient, 'buyer', buyer, assetId, 1, app.appAddress, unitaryPrice)
@@ -172,5 +174,5 @@ export async function deploy() {
     {},
     { sendParams: { fee: algokit.transactionFees(3), populateAppCallResources: true } },
   )
-  console.log('4. IU 티켓 판매 종료 및 수익금 회수 완료!')
+  // console.log('4. IU 티켓 판매 종료 및 수익금 회수 완료!')
 }
